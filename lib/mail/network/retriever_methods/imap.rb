@@ -92,7 +92,7 @@ module Mail
             ## move the message to ALL Mail before delete it to make sure its not READ-ONLY folder
             if options[:delete_after_find]
               imap.uid_copy(message_id, "Inbox")
-              imap.uid_store(message_id, "+FLAGS", [Net::IMAP::DELETED]) 
+              imap.uid_store(message_id, "+FLAGS", [:Deleted])
             end  
           end
           imap.expunge if options[:delete_after_find]
