@@ -91,8 +91,8 @@ module Mail
             emails << Mail.new(fetchdata.attr['RFC822'])
             ## move the message to ALL Mail before delete it to make sure its not READ-ONLY folder
             if options[:delete_after_find]
-              imap.uid_copy(message_id, "Inbox")
-              imap.uid_store(message_id, "+FLAGS", [:Deleted])
+              imap.uid_copy(message_id, "[Gmail]/Trash")
+              imap.uid_store(message_id, "+FLAGS", [:Deleted]) rescue nil
             end  
           end
           imap.expunge if options[:delete_after_find]
