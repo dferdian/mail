@@ -91,11 +91,11 @@ module Mail
             emails << Mail.new(fetchdata.attr['RFC822'])
             ## move the message to ALL Mail before delete it to make sure its not READ-ONLY folder
             if options[:delete_after_find]
-              imap.uid_copy(message_id, "[Gmail]/Trash")
-              imap.uid_store(message_id, "+FLAGS", [:Deleted]) rescue nil
+              imap.uid_copy(message_id, "[Gmail]/Trash") rescue nil
+              imap.uid_store(message_id, "+FLAGS", [Net::IMAP::DELETED]) rescue nil
             end  
           end
-          imap.expunge if options[:delete_after_find]
+          imap.expunge if options[:delete_after_find] && !options[:mailbox].include?("Drafts")
           emails.size == 1 && options[:count] == 1 ? emails.first : emails
         end
       end
